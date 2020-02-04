@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '8.0'
+
+target 'OBTun2Socks_Example' do
+  pod 'OBTun2Socks', :path => '../'
+
+  target 'OBTun2Socks_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
