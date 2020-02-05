@@ -15,7 +15,8 @@
 #include "misc/socks_proto.h"
 #include "system/BAddr.h"
 #include "tun2socks/tun2socks.h"
-@import CocoaAsyncSocket;
+#include <CocoaAsyncSocket/GCDAsyncSocket.h>
+#include <CocoaAsyncSocket/GCDAsyncUdpSocket.h>
 
 #define kTunnelInterfaceErrorDomain [NSString stringWithFormat:@"%@.TunnelInterface", [[NSBundle mainBundle] bundleIdentifier]]
 #define DNS_QR 0x80
