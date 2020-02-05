@@ -1,0 +1,23 @@
+PODS:
+  - CocoaAsyncSocket (7.6.3)
+  - OBTun2Socks (0.1.0):
+    - CocoaAsyncSocket (~> 7.6.2)
+
+DEPENDENCIES:
+  - OBTun2Socks (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - CocoaAsyncSocket
+
+EXTERNAL SOURCES:
+  OBTun2Socks:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  OBTun2Socks: abd994fe7d5eb80a4ff55cb02d829f57b909aed0
+
+PODFILE CHECKSUM: b70cca5b49aa2e20535a28c52243d8082f9b1a60
+
+COCOAPODS: 1.8.4
