@@ -44,11 +44,11 @@ Jigsaw's [Outline Client](https://github.com/Jigsaw-Code/outline-client/tree/mas
 
   s.xcconfig = {
     'USER_HEADER_SEARCH_PATHS' => [
-      '"${PODS_ROOT}/../../OBTun2Socks/Classes"',
-      '"${PODS_ROOT}/../../OBTun2Socks/Classes/lwip/custom"',
-      '"${PODS_ROOT}/../../OBTun2Socks/Classes/lwip/src/include"',
-      '"${PODS_ROOT}/../../OBTun2Socks/Classes/lwip/src/include/ipv4"',
-      '"${PODS_ROOT}/../../OBTun2Socks/Classes/lwip/src/include/ipv6"',
+      '"${PODS_TARGET_SRCROOT}/OBTun2Socks/Classes"',
+      '"${PODS_TARGET_SRCROOT}/OBTun2Socks/Classes/lwip/custom"',
+      '"${PODS_TARGET_SRCROOT}/OBTun2Socks/Classes/lwip/src/include"',
+      '"${PODS_TARGET_SRCROOT}/OBTun2Socks/Classes/lwip/src/include/ipv4"',
+      '"${PODS_TARGET_SRCROOT}/OBTun2Socks/Classes/lwip/src/include/ipv6"',
     ],
     'GCC_PREPROCESSOR_DEFINITIONS' => [
       'BADVPN_USE_SYSLOG',
