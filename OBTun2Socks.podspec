@@ -42,7 +42,7 @@ Jigsaw's [Outline Client](https://github.com/Jigsaw-Code/outline-client/tree/mas
     'OBTun2Socks/Classes/**/netdb.h',
   ]
 
-  s.xcconfig = {
+  s.pod_target_xcconfig = {
     'USER_HEADER_SEARCH_PATHS' => [
       '"${PODS_TARGET_SRCROOT}/OBTun2Socks/Classes"',
       '"${PODS_TARGET_SRCROOT}/OBTun2Socks/Classes/lwip/custom"',
@@ -60,10 +60,9 @@ Jigsaw's [Outline Client](https://github.com/Jigsaw-Code/outline-client/tree/mas
       'BADVPN_LIBTSOCKS',
       'BADVPN_LITTLE_ENDIAN',
     ],
-    'OTHER_LDFLAGS' => [
-      '-lresolv'
-    ],
   }
+
+  s.library = 'resolv'
 
   s.dependency 'CocoaAsyncSocket', '~> 7.6.2'
 
