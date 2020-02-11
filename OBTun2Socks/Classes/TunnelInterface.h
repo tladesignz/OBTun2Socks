@@ -20,6 +20,7 @@
 + (void)processPackets;
 + (void)writePacket: (NSData *)packet;
 + (void)startTun2Socks: (int)socksServerPort;
++ (void)startTun2Socks: (int)socksServerPort withUsername: (NSString *)username andPassword: (NSString *)password;
 + (void)stop;
 + (void)setIsUdpForwardingEnabled:(BOOL)enabled;
 @end

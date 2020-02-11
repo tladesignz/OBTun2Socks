@@ -93,7 +93,21 @@ typedef struct {
 
 
 + (void)startTun2Socks: (int)socksServerPort {
-    [NSThread detachNewThreadSelector:@selector(_startTun2Socks:) toTarget:[TunnelInterface sharedInterface] withObject:@(socksServerPort)];
+    [self startTun2Socks:socksServerPort withUsername:nil andPassword:nil];
+}
+
++ (void)startTun2Socks: (int)socksServerPort withUsername: (NSString *)username andPassword: (NSString *)password
+{
+    NSMutableArray *args = [NSMutableArray new];
+    [args addObject:@(socksServerPort)];
+
+    if (username && password)
+    {
+        [args addObject:username];
+        [args addObject:password];
+    }
+
+    [NSThread detachNewThreadSelector:@selector(_startTun2Socks:) toTarget:[TunnelInterface sharedInterface] withObject:args];
 }
 
 + (void)stop {
@@ -155,24 +169,41 @@ typedef struct {
   return nil;
 }
 
-- (void)_startTun2Socks: (NSNumber *)socksServerPort {
-    self.socksServerPort = [socksServerPort intValue];
+- (void)_startTun2Socks: (NSArray *)args {
+    self.socksServerPort = [args[0] intValue];
     NSString* socksServerAddress = [NSString stringWithFormat:@"%@:%d", LOCALHOST_IP,
                                     self.socksServerPort];
-    char* socks_server = (char *)[socksServerAddress cStringUsingEncoding:kCFStringEncodingUTF8];
-    char *argv[] = {
-        "tun2socks",
-        "--netif-ipaddr",
-        "192.0.2.4",
-        "--netif-netmask",
-        "255.255.255.0",
-        "--loglevel",
-        "warning",
-        "--socks-server-addr",
-        socks_server,
-        "--socks5-udp"
-    };
-    tun2socks_main(sizeof(argv)/sizeof(argv[0]), argv, self.readFd, TunnelMTU);
+
+    // Yeah, I know, it's super-ugly, but I don't have the nerves currently to learn
+    // how to do goddamn C string array mangling. Happy to receive pull requests!
+    if (args.count > 2)
+    {
+        char *argv[] = {
+            "tun2socks",
+            "--netif-ipaddr", "192.0.2.4",
+            "--netif-netmask", "255.255.255.0",
+            "--loglevel", "warning",
+            "--socks-server-addr", (char *)[socksServerAddress UTF8String],
+            "--socks5-udp",
+            "--username", (char *)[args[1] UTF8String],
+            "--password", (char *)[args[2] UTF8String],
+        };
+
+        tun2socks_main(sizeof(argv)/sizeof(argv[0]), argv, self.readFd, TunnelMTU);
+    }
+    else {
+        char *argv[] = {
+            "tun2socks",
+            "--netif-ipaddr", "192.0.2.4",
+            "--netif-netmask", "255.255.255.0",
+            "--loglevel", "warning",
+            "--socks-server-addr", (char *)[socksServerAddress UTF8String],
+            "--socks5-udp",
+        };
+
+        tun2socks_main(sizeof(argv)/sizeof(argv[0]), argv, self.readFd, TunnelMTU);
+    }
+
     close(self.readFd);
     close(self.writeFd);
     [[NSNotificationCenter defaultCenter] postNotificationName:kTun2SocksStoppedNotification object:nil];
